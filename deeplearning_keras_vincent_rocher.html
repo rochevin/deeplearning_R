@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>deeplearning_keras_vincent_rocher.utf8.md</title>
+    <meta charset="utf-8" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rutgers.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+class: inverse, center, middle
+background-image: url(imgs/cc.svg),url(imgs/cbi.png),url(imgs/logo_UT3_RVB.png),url(imgs/index.jpeg)
+background-position: 100% 0%,25% 100%,50% 100%,75% 100%
+background-size: 28%,15%,20%,10%
+
+## .center[Deep Learning with .large[__R__] and __`keras`__]
+
+### .center[Journal Club Bioinfo]
+&lt;hr /&gt;
+
+.large[Vincent ROCHER | Chromatin and DNA Repair | 27/02/2020]
+
+
+---
+
+.pull-left[
+.large[
+### Table of content
+- What is Deep learning
+- Tensorflow &amp; Keras
+- Keras with R
+- Some examples
+  - text classification
+  - image classification
+]
+
+]
+
+.pull-right[
+![deeplearning with R](imgs/dplwithr.jpeg)
+
+]
+---
+## History
+.pull-left[
+
+#### Core of deep learning: 
+- __Artificial neuron__ (_1943_)
+- __Perceptron__ (_1957_)
+
+#### The network: 
+- __Multilayer perceptron__ (_1967_)
+
+#### More complex networks: 
+- __Vision__:
+  - __Neocognitron__ (_1980_)
+  - __Convolution__ (_1998_)
+  
+- __Speech__:
+  - __Recurrent neural networks__ (_1986_)
+  - __Long short-term memory__ (_1997_)
+
+]
+
+--
+
+.pull-right[
+### Wow 
+![deeplearning](imgs/wowdream.jpg)
+### Such dream
+]
+---
+
+## Deep Learning applications
+.pull-left[
+
+&lt;img src="imgs/methods_cover_image.jpg" width="100%" /&gt;
+_from https://github.com/lykaust15/Deep_learning_examples_
+
+
+]
+
+
+.pull-right[
+
+- __ImageNet challenge__: In 2012, from 73% accuracy to 84%. Now &gt;95%.
+- __Computer vision__.
+- __Natural language processing__.
+
+### Deep Learning in bioinformatics
+- __Sequence analysis__ from _Next Generation Sequencing_ data.
+- __Regression analysis__ with _gene expression_.
+- __Graph embedding__ for _protein-protein interactions_.
+
+You can find some examples [here](https://github.com/lykaust15/Deep_learning_examples).
+]
+---
+
+## What is __Deep Learning__ ?
+
+.center[
+
+
+&lt;img src="imgs/diffprog.jpg" width="100%" /&gt;
+
+]
+
+### Or ...
+
+.pull-left[
+&gt; Layered representations learning
+
+]
+
+.pull-right[
+&gt; Chained geometric transformation learning
+
+]
+
+
+---
+## What is __Deep Learning__ ?
+
+.pull-left[
+![deeplearning](imgs/whatisdeeplearning.jpg)
+
+]
+
+.pull-right[
+![deeplearning](imgs/01fig02.jpg)
+
+
+]
+
+- __AI: __ Hard-coded rules.
+- __Machine Learning: __ Learn from data using features.
+- __Deep Learning: __ Learn representations from data.
+
+---
+
+## What is __Deep Learning__ ?
+.pull-left[
+
+#### A _deep_ neural network
+
+![deeplearning](imgs/layer_exemple.png)
+
+]
+
+.pull-right[
+#### An artificial neuron
+![deeplearning](imgs/neural_example.jpeg)
+
+]
+
+.large[
+- A layer apply a __geometric transformation__ on a tensor and output a __tensor__ using _weights_ (also __tensors__).
+- A _deep_ neural network consist of successive (linear) __stack of layers__, from an _input layer_ to a single _output layer_.
+]
+
+
+
+
+---
+
+
+## What is __Deep Learning__ ?
+
+.pull-left[
+![deeplearning](imgs/01fig07.jpg)
+__Weights__ progressively transform `\(X\)` into `\(Y'\)`.
+]
+--
+.pull-right[
+![deeplearning](imgs/01fig08.jpg)
+- __Loss score__ represent the __distance__ between `\(Y'\)` and `\(Y\)`.
+]
+
+---
+## What is __Deep Learning__ ?
+
+.pull-left[
+![deeplearning](imgs/01fig07.jpg)
+__Weights__ progressively transform `\(X\)` into `\(Y'\)`.
+]
+
+.pull-right[
+![deeplearning](imgs/01fig09.jpg)
+
+- __Loss score__ represent the __distance__ between `\(Y'\)` and `\(Y\)`.
+- __Optimizer__ update the __weights__  with _backpropagation_ and _stochastic gradient descent_.
+
+]
+
+---
+## What is __Deep Learning__ ?
+.large[
+In short, deep learning is to minimize `\(C(y_i,y^{'}_i)\)`
+
+... where `\(y^{'}_i=f^{L}(W^{L}f^{L-1}(W^{L-1}...f^{1}(W^{1}x_i)))\)`
+]
+
+---
+## __Loss__ &amp; __Activation__ functions
+
+.large[
+&lt;table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Activation and Loss for different problems&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Problem type &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Activation &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Loss &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; Regression &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; font-weight: bold;color: black !important;"&gt; None (linear) &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; Mean Square Error (MSE) or Mean Absolute Error (MSE) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; Binary classification &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; font-weight: bold;color: black !important;"&gt; Sigmoid &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; Binary crossentropy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; Multiclass classification &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; font-weight: bold;color: black !important;"&gt; Softmax &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; Categorical crossentropy &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+## Tensors
+
+### What are tensors ?
+
+&lt;table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Examples of tensors&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Dimension &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; R object &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Data &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 0D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; 42 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 1D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; c(42, 42, 42) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vector data &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; 2D tensors of shape (samples, features) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 2D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; matrix(42, nrow = 2, ncol = 2) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Timeseries data &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; 3D tensors of shape (samples, timesteps, features) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 3D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2)) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Images &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; Images 	4D tensors of shape (samples, height, width, channels) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 4D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2,3)) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Videos &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; Video 	5D tensors of shape (samples, frames, height, width, channels) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+__Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary number of dimensions__ (or _axis_).
+---
+
+##Library for deep learning
+
+.pull-left[
+
+### Tensorflow
+
+&lt;img src="imgs/SVG/FullColorPrimary Icon.svg" width="50%" /&gt;
+
+- Open source platform for machine learning (and deep learning) developed by Google.
+- _Tensor_: Manipulate data as __tensors__.
+- _flow_: Build computation node as __graph__.
+
+]
+
+.pull-right[
+### Keras 
+
+&lt;img src="imgs/Keras_Logo.jpg" width="40%" /&gt;
+
+- High level neural network API (`python`).
+- Work with __Tensorflow__, __CNTK__, or __Theano__.
+- __User-friendly__ &amp; work very well with __Tensorflow__.
+
+]
+
+---
+
+## R interface to Keras
+
+#### Package `keras` by Rstudio (https://keras.rstudio.com/).
+
+--
+
+
+```r
+install.packages("keras")
+# default installation
+library(keras)
+install_keras()
+
+# install using a conda environment (default is virtualenv)
+install_keras(method = "conda")
+
+# install with GPU version of TensorFlow
+# (NOTE: only do this if you have an NVIDIA GPU + CUDA!)
+*install_keras(tensorflow = "gpu")
+
+# install a specific version of TensorFlow
+install_keras(tensorflow = "1.2.1")
+install_keras(tensorflow = "1.2.1-gpu")
+```
+
+---
+
+## R interface to Keras
+
+### Change backend
+
+.pull-left[
+
+
+```r
+library(keras)
+use_backend("theano")
+```
+
+__Theano__ is an open-source symbolic tensor manipulation framework developed by LISA Lab at Université de Montréal.
+
+
+]
+
+.pull-right[
+
+
+```r
+library(keras)
+use_backend("cntk")
+```
+
+__CNTK__ is an open-source toolkit for deep learning developed by Microsoft.
+
+]
+
+---
+
+## Python vs R 
+
+
+#### First examples found on the documentation ([R](https://keras.rstudio.com/articles/sequential_model.html), [python](https://keras.io/getting-started/sequential-model-guide/))
+
+.pull-left[
+
+
+### `python`
+
+```python
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+
+model = Sequential([
+    Dense(32, input_shape=(784,)),
+    Activation('relu'),
+    Dense(10),
+    Activation('softmax'),
+])
+```
+]
+
+
+.pull-right[
+### `R`
+
+```r
+library(keras)
+
+model &lt;- keras_model_sequential() 
+model %&gt;% 
+  layer_dense(32, input_shape=c(784)) %&gt;% 
+  layer_activation('relu') %&gt;% 
+  layer_dense(10) %&gt;% 
+  layer_activation('softmax')
+```
+]
+
+---
+
+## R to Tensorflow graph
+
+
+.pull-left[
+
+&lt;img src="imgs/dense_network.png" width="60%" /&gt;
+
+
+]
+
+
+.pull-right[
+### `R`
+
+```r
+library(keras)
+
+model &lt;- keras_model_sequential() 
+model %&gt;% 
+  layer_dense(32, input_shape=c(784)) %&gt;% 
+  layer_activation('relu') %&gt;% 
+  layer_dense(10) %&gt;% 
+  layer_activation('softmax')
+```
+]
+
+---
+
+### Summary of our model
+
+
+```r
+summary(model)
+```
+
+```
+## Model: "sequential_1"
+## ___________________________________________________________________________
+## Layer (type)                     Output Shape                  Param #     
+## ===========================================================================
+## dense_2 (Dense)                  (None, 32)                    25120       
+## ___________________________________________________________________________
+## activation_2 (Activation)        (None, 32)                    0           
+## ___________________________________________________________________________
+## dense_3 (Dense)                  (None, 10)                    330         
+## ___________________________________________________________________________
+## activation_3 (Activation)        (None, 10)                    0           
+## ===========================================================================
+*## Total params: 25,450
+## Trainable params: 25,450
+## Non-trainable params: 0
+## ___________________________________________________________________________
+```
+
+---
+
+### A very big model
+
+
+
+
+```r
+summary(vgg16_imagenet_model)
+```
+```
+Model: "vgg16"
+_________________________________________________________________________________________________________________________
+Layer (type)                                          Output Shape                                    Param #            
+=========================================================================================================================
+input_1 (InputLayer)                                  [(None, 224, 224, 3)]                           0                  
+_________________________________________________________________________________________________________________________
+block1_conv1 (Conv2D)                                 (None, 224, 224, 64)                            1792               
+_________________________________________________________________________________________________________________________
+block1_conv2 (Conv2D)                                 (None, 224, 224, 64)                            36928              
+_________________________________________________________________________________________________________________________
+block1_pool (MaxPooling2D)                            (None, 112, 112, 64)                            0                  
+_________________________________________________________________________________________________________________________
+...
+_________________________________________________________________________________________________________________________
+flatten (Flatten)                                     (None, 25088)                                   0                  
+_________________________________________________________________________________________________________________________
+fc1 (Dense)                                           (None, 4096)                                    102764544          
+_________________________________________________________________________________________________________________________
+fc2 (Dense)                                           (None, 4096)                                    16781312           
+_________________________________________________________________________________________________________________________
+predictions (Dense)                                   (None, 1000)                                    4097000            
+=========================================================================================================================
+*Total params: 138,357,544
+Trainable params: 138,357,544
+Non-trainable params: 0
+_________________________________________________________________________________________________________________________
+```
+---
+### Compilation
+
+```r
+model %&gt;% compile(
+  optimizer = "rmsprop",
+  loss = "categorical_crossentropy",
+  metrics = c("acc")
+)
+```
+
+`compile()` modify the model object in place (no return).
+--
+
+### Training
+
+
+```r
+history &lt;- model %&gt;% fit(
+  x_train, y_train,
+  epochs = 10,
+  batch_size = 128,
+  validation_split = 0.2,
+  verbose = 1
+)
+```
+
+- `epochs = 10`: Use 10 times our dataset to train the model.
+- `batch_size = 128`: Model feed by mini-batches of 128 samples.
+- `validation_split = 0.2`: Keep 20% of our train data for validation.
+
+---
+
+### Training
+
+```r
+plot(history)
+```
+.center[
+
+&lt;img src="imgs/example_plot_history.svg" width="80%" /&gt;
+
+]
+
+---
+### Evaluation and prediction
+
+```r
+model %&gt;% evaluate(x_test,y_test)
+```
+
+```
+$loss
+[1] 0.4052937
+
+$acc
+[1] 0.8454
+```
+
+```r
+model %&gt;% predict_classes(x_test[1:10,])
+```
+
+```
+ [1] 0 1 1 0 1 1 1 0 1 1
+```
+
+```r
+ model %&gt;% predict_proba(x_test[1:10,])
+```
+```
+ [1] 8.842140e-03 9.998803e-01 9.527058e-01 4.542440e-01 9.996748e-01 8.639503e-01 9.832536e-01
+ [8] 7.519126e-05 9.976131e-01 9.998198e-01
+```
+
+---
+## Layers available
+
+### Dense layer
+
+```r
+dense_layer()
+```
+
+
+.center[
+
+&lt;img src="imgs/layer_exemple.png" width="60%" /&gt;
+
+]
+
+---
+### Convolution layer
+
+####Convolution in 1D
+
+```r
+layer_conv_1d()
+```
+
+
+.center[
+![conv1d](imgs/06fig22.jpg)
+]
+---
+### Convolution layer
+####Convolution in 2D
+
+```r
+layer_conv_2d()
+```
+
+.center[
+![conv2d](imgs/05fig03.jpg)
+]
+---
+### Recurrent neural network (RNN)
+
+
+```r
+layer_simple_rnn()
+layer_lstm()
+layer_gru()
+```
+
+
+.center[
+![conv1d](imgs/RNN-unrolled.png)
+_from http://colah.github.io/posts/2015-08-Understanding-LSTMs/_
+
+]
+---
+
+### Embedding layer
+
+```r
+layer_embedding()
+```
+
+.center[
+![embedding](imgs/06fig02.jpg)
+]
+
+---
+### Regularization layer
+
+#### L1 / L2 regularization
+```r
+regularizer_l1(l = 0.01)
+
+regularizer_l2(l = 0.01)
+
+regularizer_l1_l2(l1 = 0.01, l2 = 0.01)
+```
+
+.pull-left[
+
+#### Dropout
+
+```r
+layer_dropout(0.5)
+```
+]
+.pull-right[
+![dropout](imgs/dropout.png)
+_Srivastava, Nitish, et al. ”Dropout: a simple way to prevent neural networks from overfitting”, JMLR 2014_
+]
+
+---
+### Regularization layer
+
+#### Gaussian noise
+
+```r
+layer_gaussian_noise()
+layer_gaussian_dropout()
+```
+
+- __GaussianNoise__: Add zero-centered noise, with specified standard deviation (Similar to data augmentation).
+- __GaussianDropout__: A combination of Dropout and Gaussian noise.
+
+
+#### Batch normalization
+```r
+layer_batch_normalization()
+```
+
+- __Batch normalization__: Scaling/centering batches to avoid the layers to adapt themselves to a new distribution in every training step.
+
+---
+### And many others
+.center[
+&lt;iframe src="https://keras.rstudio.com/reference/index.html" width="100%" height="400px"&gt;&lt;/iframe&gt;
+
+]
+
+---
+## __Example 1__: IMDB Movie reviews
+
+#### Predict sentiment (_positive_/_negative_) with _25000_ movies reviews.
+
+
+```r
+?dataset_imdb
+```
+
+
+&gt; Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a sequence of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer "3" encodes the 3rd most frequent word in the data. This allows for quick filtering operations such as: "only consider the top 10,000 most common words, but eliminate the top 20 most common words".
+
+---
+
+## __Example 1__: IMDB Movie reviews
+
+
+```r
+max_features &lt;- 10000                                    
+imdb &lt;- dataset_imdb(num_words = max_features)
+c(c(x_train, y_train), c(x_test, y_test)) %&lt;-% imdb     
+maxlen &lt;- x_train %&gt;% map(length) %&gt;% unlist() %&gt;% median()   
+x_train &lt;- pad_sequences(x_train, maxlen = maxlen)
+x_train %&gt;% dim()
+```
+
+```
+## [1] 25000   178
+```
+
+```r
+x_test &lt;- pad_sequences(x_test, maxlen = maxlen)
+x_test %&gt;% dim()
+```
+
+```
+## [1] 25000   178
+```
+
+---
+## __Example 1__: IMDB Movie reviews
+
+
+
+
+
+```r
+word_index &lt;- dataset_imdb_word_index()
+reverse_word_index &lt;- names(word_index) %&gt;% setNames(word_index)
+```
+
+###Positive review
+
+
+```r
+one_positive_review &lt;- x_train[y_train == 1,][1,]
+one_positive_review
+```
+
+```
+##   [1]   39    4  172 4536 1111   17  546   38   13  447    4  192   50   16
+##  [15]    6  147 2025   19   14   22    4 1920 4613  469    4   22   71   87
+##  [29]   12   16   43  530   38   76   15   13 1247    4   22   17  515   17
+##  [43]   12   16  626   18    2    5   62  386   12    8  316    8  106    5
+##  [57]    4 2223 5244   16  480   66 3785   33    4  130   12   16   38  619
+##  [71]    5   25  124   51   36  135   48   25 1415   33    6   22   12  215
+##  [85]   28   77   52    5   14  407   16   82    2    8    4  107  117 5952
+##  [99]   15  256    4    2    7 3766    5  723   36   71   43  530  476   26
+## [113]  400  317   46    7    4    2 1029   13  104   88    4  381   15  297
+## [127]   98   32 2071   56   26  141    6  194 7486   18    4  226   22   21
+## [141]  134  476   26  480    5  144   30 5535   18   51   36   28  224   92
+## [155]   25  104    4  226   65   16   38 1334   88   12   16  283    5   16
+## [169] 4472  113  103   32   15   16 5345   19  178   32
+```
+
+---
+## __Example 1__: IMDB Movie reviews
+###Positive review
+
+
+```r
+one_positive_review %&gt;% map(TranslateToWord) %&gt;% paste(collapse = " ")
+```
+
+&gt; from the same scottish island as myself so i loved the fact there was a real connection with this film the witty remarks throughout the film were great it was just brilliant so much that i bought the film as soon as it was released for ? and would recommend it to everyone to watch and the fly fishing was amazing really cried at the end it was so sad and you know what they say if you cry at a film it must have been good and this definitely was also ? to the two little boy's that played the ? of norman and paul they were just brilliant children are often left out of the ? list i think because the stars that play them all grown up are such a big profile for the whole film but these children are amazing and should be praised for what they have done don't you think the whole story was so lovely because it was true and was someone's life after all that was shared with us all
+
+---
+## __Example 1__: IMDB Movie reviews
+###negative review
+
+
+```r
+one_negative_review &lt;- x_train[y_train == 0,][1,]
+```
+
+```r
+one_negative_review %&gt;% map(TranslateToWord) %&gt;% paste(collapse = " ")
+```
+
+&gt; pin these are the words to best describe this terrible movie i love cheesy horror movies and i've seen hundreds but this had got to be on of the worst ever made the plot is paper thin and ridiculous the acting is an abomination the script is completely laughable the best is the end showdown with the cop and how he worked out who the killer is it's just so damn terribly written the clothes are sickening and funny in equal ? the hair is big lots of boobs ? men wear those cut ? shirts that show off their ? sickening that men actually wore them and the music is just ? trash that plays over and over again in almost every scene there is trashy music boobs and ? taking away bodies and the gym still doesn't close for ? all joking aside this is a truly bad film whose only charm is to look back on the disaster that was the 80's and have a good old laugh at how bad everything was back then
+
+
+---
+
+## __Example 1__: IMDB Movie reviews
+###__First__ method: count presence / absence of words
+
+
+```r
+#Set an array of dim (nrow,max_features)
+#Set 1 if a word is present
+CountMatrix &lt;- function(x_data,max_features = 10000){
+  x_occ_data &lt;- array(0L,dim = c(nrow(x_data),max_features))
+  for(i in 1:nrow(x_data)){
+    x &lt;- table(x_data[i,])
+    x &lt;- x[names(x) != "0"]
+    x_occ_data[i,as.integer(names(x))] &lt;- 1
+  }
+  return(x_occ_data)
+}
+```
+
+#### Transform data
+
+
+```r
+x_occ_train &lt;- x_train %&gt;% CountMatrix
+x_occ_test &lt;- x_test %&gt;% CountMatrix
+```
+
+---
+## __Example 1__: IMDB Movie reviews
+###__First__ method: count presence / absence of words
+
+### Build model 
+
+
+```r
+model &lt;- keras_model_sequential() %&gt;%
+  layer_dense(128,input_shape = c(max_features), activation = "relu") %&gt;% 
+  layer_dense(units = 64, activation = "relu") %&gt;% 
+  layer_dense(units = 1, activation = "sigmoid")
+```
+
+### Compile
+
+
+```r
+model %&gt;% compile(
+  optimizer = "rmsprop",
+  loss = "binary_crossentropy",
+  metrics = c("acc")
+)
+```
+---
+## __Example 1__: IMDB Movie reviews
+###__First__ method: count presence / absence of words
+
+#### History
+
+
+```r
+history &lt;- model %&gt;% fit(
+  x_occ_train, y_train,
+  epochs = 10,
+  batch_size = 128,
+  validation_split = 0.2,
+  verbose = 0
+)
+```
+---
+
+#### Plot history
+
+
+```r
+plot(history)
+```
+
+.center[
+&lt;img src="imgs/history_occ_dense.svg" width="80%" /&gt;
+]
+
+---
+
+## __Example 1__: IMDB Movie reviews
+### Prepare our model for __Hyperparameter Tuning__
+
+#### Define flags for key parameters ...
+
+```r
+FLAGS &lt;- flags(
+  flag_string("activation","relu"),
+  flag_string("optimizer",'rmsprop'),
+  flag_string("loss",'binary_crossentropy'),
+  flag_numeric("epoch",10),
+  flag_numeric("dense1",128),
+  flag_numeric("dense2",16),
+  flag_numeric("dropout1",0.6),
+  flag_numeric("dropout2",0.2)
+  
+)
+```
+
+---
+## __Example 1__: IMDB Movie reviews
+#### ... And replace hard-coded hyperparameters by `FLAGS$hyper_parameter_name`:
+
+
+```r
+model_tuning &lt;- keras_model_sequential() %&gt;%
+  layer_dense(`FLAGS$dense1`,input_shape = c(max_features), activation = `FLAGS$activation`) %&gt;% 
+  layer_dropout(`FLAGS$dropout1`) %&gt;%
+  layer_dense(units = `FLAGS$dense2`, activation = `FLAGS$activation`) %&gt;% 
+  layer_dropout(`FLAGS$dropout2`) %&gt;%
+  layer_dense(units = 1, activation = "sigmoid")
+
+model_tuning %&gt;% compile(
+  optimizer = `FLAGS$optimizer`,
+  loss = `FLAGS$loss`,
+  metrics = c("acc")
+)
+```
+
+---
+## __Example 1__: IMDB Movie reviews
+### Prepare our model for __Hyperparameter Tuning__
+
+#### Then launch hypertuning
+
+
+```r
+require("tfruns")
+tuning_run("imdb_occ_dense.R", runs_dir = "hypertuning/imdb_occ_dense", flags = list(
+  dense1 = c(512,256,128),
+  dense2 = c(64,32,16),
+  dropout1 = c(0,0.2,0.4,0.6),
+  dropout2 = c(0,0.2,0.4,0.6)
+))
+```
+
+```bash
+Rscript imdb_occ_dense.R --epoch 5 --dense1 128 --dense2 64 --dropout1 0.6 --dropout2 0.2
+```
+
+
+---
+
+## __Example 1__: IMDB Movie reviews
+
+
+#### History with tuning
+
+
+
+```r
+history_tuning &lt;- model %&gt;% fit(
+  x_occ_train, y_train,
+  epochs = `FLAGS$epoch`,
+  batch_size = 128,
+  validation_split = 0.2,
+  verbose = 0
+)
+```
+
+---
+
+#### Plot history
+
+
+```r
+plot(history_tuning)
+```
+
+.center[
+&lt;img src="imgs/tuning_history_occ_dense.svg" width="80%" /&gt;
+]
+
+---
+## __Example 1__: IMDB Movie reviews
+###__Second__ method: Use __one-hot__ encoding 
+
+- __Pros__: Most basic way to turn a token into a vector. 
+
+ - Encode integer indexes into binary vectors of size `max_features` : `\(\mathbf{T} = \mathbf{[}0,0,0,...,1,0\mathbf{]}\)` where `\(1\)` is positionned at the word index.
+ - Remove __ranking__ between words.
+ 
+--
+
+- __Cons__: _High dimensionality_ : 
+
+  - at sample level : Encode `\(\mathbf{T}: 25000 \times 174 \rightarrow 25000 \times 10000\)` (equivalent to count presence / absence of words).
+  - at the character level `\(\mathbf{T}: 25000 \times 174 \rightarrow 25000 \times 174 \times 10000\)`. A binary encoding of size `max_features` for each position 
+
+---
+
+###__Second__ method: Use __one-hot__ encoding 
+
+
+```r
+sequences &lt;- c("A","C","T","T","G","T","G","C")
+sequences
+```
+
+```
+## [1] "A" "C" "T" "T" "G" "T" "G" "C"
+```
+
+```r
+tokenizer &lt;- text_tokenizer() %&gt;%
+  fit_text_tokenizer(sequences)
+
+
+one_hot_results &lt;- texts_to_matrix(tokenizer, sequences, mode = "binary")
+```
+.center[
+![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-41-1.svg)&lt;!-- --&gt;
+]
+
+---
+
+### __Third__ method: Using word __embedding__
+
+```r
+model_embedding &lt;- keras_model_sequential() %&gt;%
+* layer_embedding(input_dim = max_features, output_dim = 64,
+*               input_length = maxlen) %&gt;%
+  layer_flatten() %&gt;% 
+  layer_dropout(0.6) %&gt;% 
+  layer_dense(units = 128, activation = "relu") %&gt;% 
+  layer_dropout(0.2) %&gt;% 
+  layer_dense(units = 1, activation = "sigmoid")
+summary(model_embedding)
+```
+
+---
+
+### __Third__ method: Using word __embedding__
+
+
+```
+## Model: "sequential_2"
+## ___________________________________________________________________________
+## Layer (type)                     Output Shape                  Param #     
+## ===========================================================================
+*## embedding (Embedding)            (None, 178, 64)               640000      
+## ___________________________________________________________________________
+## flatten (Flatten)                (None, 11392)                 0           
+## ___________________________________________________________________________
+## dropout (Dropout)                (None, 11392)                 0           
+## ___________________________________________________________________________
+## dense_4 (Dense)                  (None, 128)                   1458304     
+## ___________________________________________________________________________
+## dropout_1 (Dropout)              (None, 128)                   0           
+## ___________________________________________________________________________
+## dense_5 (Dense)                  (None, 1)                     129         
+## ===========================================================================
+*## Total params: 2,098,433
+## Trainable params: 2,098,433
+## Non-trainable params: 0
+## ___________________________________________________________________________
+```
+
+---
+### How to kept text semantic ?
+
+#### Using word embedding
+
+- __Problem__: Use `layer_embedding` keeps the semantics but `layer_flatten` + `layer_dense` lose it ! 
+
+--
+
+- __Solution__ for sequence processing: use _convolution layers_ or _reccurent layers_ :
+  
+  - _Convolution layers_ extract local patches (sub-sequences).
+  - _Reccurent layers_ kept short/long dependencies when processing timeseries or sequence data.
+
+
+---
+
+### Using word __embedding__ _AND_ __convolution layer__
+
+
+
+```r
+conv_model &lt;- keras_model_sequential() %&gt;%
+* layer_embedding(input_dim = max_features, output_dim = 50,
+*                 input_length = maxlen) %&gt;%
+  layer_dropout(0.2) %&gt;% 
+* layer_conv_1d(filters = 250,kernel_size = 3, activation = "relu") %&gt;%
+  layer_global_max_pooling_1d() %&gt;% 
+  layer_dense(250, activation = "relu") %&gt;% 
+  layer_dropout(0.2) %&gt;% 
+  layer_dense(units = 1, activation = "sigmoid")
+summary(conv_model)
+```
+
+---
+
+### Using word __embedding__ _AND_ __convolution layer__
+
+
+```
+## Model: "sequential_3"
+## ___________________________________________________________________________
+## Layer (type)                     Output Shape                  Param #     
+## ===========================================================================
+*## embedding_1 (Embedding)          (None, 178, 50)               500000      
+## ___________________________________________________________________________
+## dropout_2 (Dropout)              (None, 178, 50)               0           
+## ___________________________________________________________________________
+## conv1d (Conv1D)                  (None, 176, 250)              37750       
+## ___________________________________________________________________________
+## global_max_pooling1d (GlobalMaxP (None, 250)                   0           
+## ___________________________________________________________________________
+## dense_6 (Dense)                  (None, 250)                   62750       
+## ___________________________________________________________________________
+## dropout_3 (Dropout)              (None, 250)                   0           
+## ___________________________________________________________________________
+## dense_7 (Dense)                  (None, 1)                     251         
+## ===========================================================================
+*## Total params: 600,751
+## Trainable params: 600,751
+## Non-trainable params: 0
+## ___________________________________________________________________________
+```
+
+---
+
+### Using word __embedding__ _AND_ __convolution layer__
+
+
+```r
+conv_model %&gt;% compile(
+  optimizer = "rmsprop",
+  loss = "binary_crossentropy",
+  metrics = c("acc")
+)
+
+history_conv &lt;- conv_model %&gt;% fit(
+  x_train, y_train,
+  epochs = 10,
+  batch_size = 32,
+  validation_split = 0.2
+)
+```
+
+---
+#### Plot history
+
+
+```r
+plot(history_conv)
+```
+
+.center[
+&lt;img src="imgs/conv_tuning_history_occ_dense.svg" width="80%" /&gt;
+]
+
+---
+
+#### Evaluate for 4 epochs
+
+
+```r
+conv_model %&gt;% evaluate(x_test,y_test)
+```
+
+```
+$loss
+[1] 0.3101077
+
+$acc
+[1] 0.87648
+```
+
+Best model so far, but could be combined with RNN/LSTM networks
+.center[
+.pull-left[
+#### Convolution layer
+&lt;img src="imgs/06fig22.jpg" width="60%" /&gt;
+
+]
+.pull-right[
+#### Simple RNN layer
+![conv1d](imgs/RNN-unrolled.png)
+]
+]
+---
+### __Bonus__: Visualize embedding layer
+
+
+
+#### Get the weights of the embedding layer
+
+```r
+*embedding_matrix &lt;- get_weights(conv_model)[[1]]
+embedding_matrix %&gt;% dim()
+words &lt;- tibble(
+  word = reverse_word_index, 
+  id = as.integer(names(reverse_word_index))
+) %&gt;% 
+  filter(id &lt;= nrow(embedding_matrix)) %&gt;%
+  arrange(id)
+
+row.names(embedding_matrix) &lt;-  words$word
+```
+
+
+
+```r
+require(text2vec) # Load for sim2 function
+# Given a vector of size output_dim return the index of n nearest vectors (cosine) 
+find_similar_words &lt;- function(word, embedding_matrix, n = 10000) {
+  similarities &lt;- embedding_matrix[word, , drop = FALSE] %&gt;%
+*   sim2(embedding_matrix, y = ., method = "cosine")
+  similarities[,1] %&gt;% sort(decreasing = TRUE) %&gt;% head(n)
+}
+```
+---
+### __Bonus__: Visualize embedding layer
+
+
+```r
+find_similar_words("good", embedding_matrix)["bad"]
+```
+
+```
+##         bad 
+## 0.009807643
+```
+
+.pull-left[
+
+&lt;table&gt;
+&lt;caption&gt;Top 5 most/less similar words for good&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; flock &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.443&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; balanced &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.453&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; victorian &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.454&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; suit &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.455&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; framing &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.462&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; sleazy &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.511&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; destruction &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.478&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; nowhere &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.448&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; exceptionally &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.43&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; blunt &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.427&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;table&gt;
+&lt;caption&gt;Top 5 most/less similar words for bad&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; laced &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.407&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; femme &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.41&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; mate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.413&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; clara &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.415&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; beaver &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #e74c3c !important;"&gt;-0.417&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; behaviour &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.534&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; ny &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.508&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; cash &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.484&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; situations &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.48&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; liar &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #27ae60 !important;"&gt;0.479&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+class: center
+
+
+
+#### 2D representation of word embedding using t-SNE
+
+![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-54-1.svg)&lt;!-- --&gt;
+
+---
+
+#### 2D representation using other embedding
+
+.center[
+&lt;img src="imgs/tfhub.png" width="35%" /&gt;
+
+]
+[tf2-preview/gnews-swivel-20dim](https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim/1): 
+- Token based text embedding trained on English Google News 130GB corpus.
+- Vocabulary contains 20,000 tokens and 1 out of vocabulary bucket for unknown tokens.
+
+
+
+
+```r
+find_similar_words("good", tf_embedding_matrix)["bad"]
+```
+
+```
+##       bad 
+## 0.8623402
+```
+---
+class: center
+
+#### 2D representation using [transfert learning](https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim/1)
+
+![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-58-1.svg)&lt;!-- --&gt;
+
+
+
+---
+## __Example 2__: MNIST database of handwritten digits
+
+#### Translate images of numbers (60000) into numbers `c(1,2,3,4,5,6,7,8,9)`
+
+
+
+
+```r
+?dataset_mnist
+```
+
+
+&gt; Dataset of 60,000 28x28 grayscale images of the 10 digits, along with a test set of 10,000 images. 
+
+.center[
+![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-61-1.png)&lt;!-- --&gt;
+]
+---
+
+## __Example 2__: MNIST database of handwritten digits
+
+### Preprocess data
+
+#### Translate images of numbers (60000) into numbers `c(1,2,3,4,5,6,7,8,9)`
+
+
+```r
+mnist &lt;- dataset_mnist()
+c(c(train_images, train_labels), c(test_images, test_labels)) %&lt;-% mnist
+dim(train_images)
+```
+
+```
+## [1] 60000    28    28
+```
+
+
+---
+## __Example 2__: MNIST database of handwritten digits
+
+### Preprocess data
+
+- Redefine  dimension of train/test inputs: 
+
+
+```r
+train_images &lt;- array_reshape(train_images, c(nrow(train_images), 28, 28, 1))
+test_images &lt;- array_reshape(test_images, c(nrow(test_images), 28, 28, 1))
+input_shape &lt;- c(28, 28, 1)
+```
+... To fit to a 2D convolution layer.
+
+- Normalize images between [0,1]: 
+
+```r
+train_images &lt;- train_images / 255
+test_images &lt;- test_images / 255
+```
+
+... Because models love to deal with small numbers.
+
+---
+### Preprocess data
+
+- And convert class vectors to binary class matrices: 
+
+```r
+train_labels &lt;- to_categorical(train_labels, 10)
+test_labels &lt;- to_categorical(test_labels, 10)
+train_labels[1:10,]
+```
+
+```
+##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    0    0    0    0    0    1    0    0    0     0
+##  [2,]    1    0    0    0    0    0    0    0    0     0
+##  [3,]    0    0    0    0    1    0    0    0    0     0
+##  [4,]    0    1    0    0    0    0    0    0    0     0
+##  [5,]    0    0    0    0    0    0    0    0    0     1
+##  [6,]    0    0    1    0    0    0    0    0    0     0
+##  [7,]    0    1    0    0    0    0    0    0    0     0
+##  [8,]    0    0    0    1    0    0    0    0    0     0
+##  [9,]    0    1    0    0    0    0    0    0    0     0
+## [10,]    0    0    0    0    1    0    0    0    0     0
+```
+
+---
+
+### Build model 
+
+
+```r
+model_mnist &lt;- keras_model_sequential() %&gt;%
+  layer_conv_2d(filters = 64, kernel_size = c(3,3), activation = 'relu') %&gt;% 
+  layer_max_pooling_2d(pool_size = c(2, 2)) %&gt;% 
+  layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = 'relu',
+                input_shape = input_shape) %&gt;% 
+  layer_global_max_pooling_2d() %&gt;% 
+  layer_dense(units = 128, activation = 'relu') %&gt;% 
+  layer_dropout(rate = 0.5) %&gt;% 
+  layer_dense(units = 10, activation = 'softmax')
+model_mnist %&gt;% compile(
+  loss = loss_categorical_crossentropy,
+  optimizer = "rmsprop",
+  metrics = c('accuracy')
+)
+```
+
+### Compile
+
+
+```r
+model_mnist %&gt;% compile(
+  loss = loss_categorical_crossentropy,
+  optimizer = "rmsprop",
+  metrics = c('accuracy')
+)
+```
+---
+## __Example 2__: MNIST database of handwritten digits
+### Using a 2D convolution layer
+
+#### History
+
+
+```r
+history_mnist &lt;- model_mnist %&gt;% fit(
+  train_images, train_labels,
+  batch_size = 128,
+  epochs = 12,
+  validation_split = 0.2
+)
+```
+---
+
+#### Plot history
+
+
+```r
+plot(history_mnist)
+```
+
+.center[
+&lt;img src="imgs/conv_MNIST.svg" width="80%" /&gt;
+]
+
+---
+#### Evaluate the model
+
+
+```r
+model_mnist %&gt;% evaluate(
+  test_images, test_labels, verbose = 0
+)
+```
+```
+$loss
+[1] 0.08596531
+
+$acc
+[1] 0.9724
+```
+
+Could even go to `0.99` with small modifications / hypertuning
+
+---
+class: inverse, center, middle
+background-image: url(imgs/cc.svg),url(imgs/cbi.png),url(imgs/logo_UT3_RVB.png),url(imgs/index.jpeg)
+background-position: 100% 0%,25% 100%,50% 100%,75% 100%
+background-size: 28%,15%,20%,10%
+
+## .right[__Thanks for your attention !__]
+
+&lt;hr /&gt;
+
+.large[Vincent ROCHER | Chromatin and DNA Repair | 27/02/2020]
+---
+
+class: split-40
+
+.column[
+###Loss function
+
+- __Regression__:
+  - Mean Square Error (MSE) `\(MSE = \frac{\displaystyle\sum_{i=1}^{n} (y_i - y^p_i )^2}{n}\)`
+  - Mean Absolute Error (MSE) `\(MSE = \frac{\displaystyle\sum_{i=1}^{n} \lvert y_i - y^p_i \lvert}{n}\)`
+
+- __Multiclass classification__ :
+  - Categorical crossentropy:
+
+- __Binary classification__:
+  - _binary crossentropy_: `\(H(p,q) = - \sum p(x)\,log\,q(x)\)`
+
+
+]
+.column[
+###Activation
+
+- __Binary classification__:
+  - _sigmoid activation_: `\(f(x) = \frac{1}{1 + e^{-x}}\)`
+
+- __Multiclass classification__:
+  - _softmax activation_: `\(\sigma(x) = \frac{e^{a_i}}{\sum_{K} e^{a_k}}\)`
+
+- __Regression__:
+  - _linear activation_: `\(f(x)=x\)`
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "googlecode",
+"highlightLines": true,
+"highlightSpans": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
