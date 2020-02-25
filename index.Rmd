@@ -139,7 +139,23 @@ knitr::include_graphics("imgs/style_transfert2.png")
 
 _from Image Style Transfer Using Convolutional Neural Networks_
 ]
+---
+## Deep Learning applications
+### Enhancing Hi-C data resolution
 
+.center[
+
+
+```{r out.width = '50%',echo=F}
+knitr::include_graphics("imgs/HiCPlus.png")
+```
+
+```{r out.width = '40%',echo=F}
+knitr::include_graphics("imgs/HiCPlus2.png")
+```
+
+_from Zhang et al, Nature comm., 2018_
+]
 ---
 ## Deep Learning applications
 .pull-left[
