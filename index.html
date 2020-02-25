@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>deeplearning_keras_vincent_rocher.utf8.md</title>
+    <title>index.utf8.md</title>
     <meta charset="utf-8" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/rutgers.css" rel="stylesheet" />
@@ -48,6 +48,27 @@ background-size: 28%,15%,20%,10%
 ![deeplearning with R](imgs/dplwithr.jpeg)
 
 ]
+
+
+---
+## What is __Deep Learning__ ?
+
+.pull-left[
+![deeplearning](imgs/whatisdeeplearning.jpg)
+
+]
+
+.pull-right[
+![deeplearning](imgs/01fig02.jpg)
+
+
+]
+
+- __AI: __ Hard-coded rules.
+- __Machine Learning: __ Learn from data using features.
+- __Deep Learning: __ Learn representations from data.
+
+
 ---
 ## History
 .pull-left[
@@ -78,7 +99,36 @@ background-size: 28%,15%,20%,10%
 ### Such dream
 ]
 ---
+## Deep Learning applications
+### A Neural Network for Machine Translation, at Production Scale 
 
+.center[
+&lt;img src="imgs/google_translate.png" width="60%" /&gt;
+
+_from Google AI blog_
+]
+
+---
+## Deep Learning applications
+### Computer Vision
+
+.center[
+&lt;img src="imgs/detection.png" width="70%" /&gt;
+
+_from Google AI blog_
+]
+
+---
+## Deep Learning applications
+### Neural style transfer
+
+.center[
+&lt;img src="imgs/style_transfert2.png" width="35%" /&gt;
+
+_from Image Style Transfer Using Convolutional Neural Networks_
+]
+
+---
 ## Deep Learning applications
 .pull-left[
 
@@ -125,24 +175,6 @@ You can find some examples [here](https://github.com/lykaust15/Deep_learning_exa
 
 ]
 
-
----
-## What is __Deep Learning__ ?
-
-.pull-left[
-![deeplearning](imgs/whatisdeeplearning.jpg)
-
-]
-
-.pull-right[
-![deeplearning](imgs/01fig02.jpg)
-
-
-]
-
-- __AI: __ Hard-coded rules.
-- __Machine Learning: __ Learn from data using features.
-- __Deep Learning: __ Learn representations from data.
 
 ---
 
@@ -300,7 +332,7 @@ __Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary num
 
 ### Tensorflow
 
-&lt;img src="imgs/SVG/FullColorPrimary Icon.svg" width="50%" /&gt;
+&lt;img src="imgs/FullColorPrimary Icon.svg" width="50%" /&gt;
 
 - Open source platform for machine learning (and deep learning) developed by Google.
 - _Tensor_: Manipulate data as __tensors__.
@@ -1025,7 +1057,7 @@ tokenizer &lt;- text_tokenizer() %&gt;%
 one_hot_results &lt;- texts_to_matrix(tokenizer, sequences, mode = "binary")
 ```
 .center[
-![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-41-1.svg)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-44-1.svg)&lt;!-- --&gt;
 ]
 
 ---
@@ -1356,7 +1388,7 @@ class: center
 
 #### 2D representation of word embedding using t-SNE
 
-![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-54-1.svg)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-57-1.svg)&lt;!-- --&gt;
 
 ---
 
@@ -1386,7 +1418,7 @@ class: center
 
 #### 2D representation using [transfert learning](https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim/1)
 
-![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-58-1.svg)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-61-1.svg)&lt;!-- --&gt;
 
 
 
@@ -1406,7 +1438,7 @@ class: center
 &gt; Dataset of 60,000 28x28 grayscale images of the 10 digits, along with a test set of 10,000 images. 
 
 .center[
-![](deeplearning_keras_vincent_rocher_files/figure-html/unnamed-chunk-61-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
 ]
 ---
 

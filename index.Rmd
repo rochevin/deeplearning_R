@@ -54,6 +54,27 @@ background-size: 28%,15%,20%,10%
 ![deeplearning with R](imgs/dplwithr.jpeg)
 
 ]
+
+
+---
+## What is __Deep Learning__ ?
+
+.pull-left[
+![deeplearning](imgs/whatisdeeplearning.jpg)
+
+]
+
+.pull-right[
+![deeplearning](imgs/01fig02.jpg)
+
+
+]
+
+- __AI: __ Hard-coded rules.
+- __Machine Learning: __ Learn from data using features.
+- __Deep Learning: __ Learn representations from data.
+
+
 ---
 ## History
 .pull-left[
@@ -84,7 +105,42 @@ background-size: 28%,15%,20%,10%
 ### Such dream
 ]
 ---
+## Deep Learning applications
+### A Neural Network for Machine Translation, at Production Scale 
 
+.center[
+```{r out.width = '60%',echo=F}
+knitr::include_graphics("imgs/google_translate.png")
+```
+
+_from Google AI blog_
+]
+
+---
+## Deep Learning applications
+### Computer Vision
+
+.center[
+```{r out.width = '70%',echo=F}
+knitr::include_graphics("imgs/detection.png")
+```
+
+_from Google AI blog_
+]
+
+---
+## Deep Learning applications
+### Neural style transfer
+
+.center[
+```{r out.width = '35%',echo=F}
+knitr::include_graphics("imgs/style_transfert2.png")
+```
+
+_from Image Style Transfer Using Convolutional Neural Networks_
+]
+
+---
 ## Deep Learning applications
 .pull-left[
 
@@ -136,24 +192,6 @@ knitr::include_graphics("imgs/diffprog.jpg")
 
 ]
 
-
----
-## What is __Deep Learning__ ?
-
-.pull-left[
-![deeplearning](imgs/whatisdeeplearning.jpg)
-
-]
-
-.pull-right[
-![deeplearning](imgs/01fig02.jpg)
-
-
-]
-
-- __AI: __ Hard-coded rules.
-- __Machine Learning: __ Learn from data using features.
-- __Deep Learning: __ Learn representations from data.
 
 ---
 
@@ -294,7 +332,7 @@ __Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary num
 ### Tensorflow
 
 ```{r out.width = '50%',echo=F}
-knitr::include_graphics("imgs/SVG/FullColorPrimary Icon.svg")
+knitr::include_graphics("imgs/FullColorPrimary Icon.svg")
 ```
 
 - Open source platform for machine learning (and deep learning) developed by Google.
