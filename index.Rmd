@@ -154,8 +154,23 @@ knitr::include_graphics("imgs/HiCPlus.png")
 knitr::include_graphics("imgs/HiCPlus2.png")
 ```
 
-_from Zhang et al, Nature comm., 2018_
+_from Zhang et al., Nature comm., 2018_
 ]
+---
+## Deep Learning applications
+### Predicting the DNA-binding proteins by deep learning
+
+```{r out.width = '40%',echo=F}
+knitr::include_graphics("imgs/deepbind_method.png")
+```
+_from Alipanahi et al., Nature biotech., 2015_
+
+```{r out.width = '70%',echo=F}
+knitr::include_graphics("imgs/motif_deepbind.png")
+```
+
+
+
 ---
 ## Deep Learning applications
 .pull-left[
