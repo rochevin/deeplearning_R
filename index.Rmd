@@ -247,6 +247,44 @@ knitr::include_graphics("imgs/diffprog.jpg")
 ]
 
 
+---
+
+## Tensors
+
+### What are tensors ?
+
+```{r,echo=F}
+tibble(
+  "Dimension" = str_c(0:4,"D"),
+  "R object" = c(
+    "42",
+    "c(42, 42, 42)",
+    "matrix(42, nrow = 2, ncol = 2)",
+    "array(42, dim = c(2,3,2))",
+    "array(42, dim = c(2,3,2,3))"
+  ),
+  "Data" = c(
+    "",
+    "Vector data",
+    "Timeseries data",
+    "Images",
+    "Videos"
+  ),
+  "Description" = 
+    c(
+      "",
+      "2D tensors of shape (samples, features)",
+      "3D tensors of shape (samples, timesteps, features)",
+      "Images 	4D tensors of shape (samples, height, width, channels)",
+      "Video 	5D tensors of shape (samples, frames, height, width, channels)"
+    )
+) %>% kable(caption = "Examples of tensors",booktabs = T) %>%kable_styling(bootstrap_options = c("striped", "hover")) %>% 
+  column_spec(1, bold = T, background = "#2980b9",color="white") %>%
+  column_spec(2, bold = T,color = "black" ,width = "40em") %>% 
+  column_spec(4,width = "20em")
+```
+
+__Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary number of dimensions__ (or _axis_).
 
 
 ---
@@ -316,44 +354,6 @@ tibble(
 ```
 ]
 
----
-
-## Tensors
-
-### What are tensors ?
-
-```{r,echo=F}
-tibble(
-  "Dimension" = str_c(0:4,"D"),
-  "R object" = c(
-    "42",
-    "c(42, 42, 42)",
-    "matrix(42, nrow = 2, ncol = 2)",
-    "array(42, dim = c(2,3,2))",
-    "array(42, dim = c(2,3,2,3))"
-  ),
-  "Data" = c(
-    "",
-    "Vector data",
-    "Timeseries data",
-    "Images",
-    "Videos"
-  ),
-  "Description" = 
-    c(
-      "",
-      "2D tensors of shape (samples, features)",
-      "3D tensors of shape (samples, timesteps, features)",
-      "Images 	4D tensors of shape (samples, height, width, channels)",
-      "Video 	5D tensors of shape (samples, frames, height, width, channels)"
-    )
-) %>% kable(caption = "Examples of tensors",booktabs = T) %>%kable_styling(bootstrap_options = c("striped", "hover")) %>% 
-  column_spec(1, bold = T, background = "#2980b9",color="white") %>%
-  column_spec(2, bold = T,color = "black" ,width = "40em") %>% 
-  column_spec(4,width = "20em")
-```
-
-__Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary number of dimensions__ (or _axis_).
 ---
 
 ##Library for deep learning

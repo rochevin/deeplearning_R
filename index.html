@@ -222,6 +222,57 @@ You can find some examples [here](https://github.com/lykaust15/Deep_learning_exa
 ]
 
 
+---
+
+## Tensors
+
+### What are tensors ?
+
+&lt;table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Examples of tensors&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Dimension &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; R object &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Data &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 0D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; 42 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 1D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; c(42, 42, 42) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vector data &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; 2D tensors of shape (samples, features) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 2D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; matrix(42, nrow = 2, ncol = 2) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Timeseries data &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; 3D tensors of shape (samples, timesteps, features) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 3D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2)) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Images &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; Images 	4D tensors of shape (samples, height, width, channels) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 4D &lt;/td&gt;
+   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2,3)) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Videos &lt;/td&gt;
+   &lt;td style="text-align:left;width: 20em; "&gt; Video 	5D tensors of shape (samples, frames, height, width, channels) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+__Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary number of dimensions__ (or _axis_).
 
 
 ---
@@ -296,57 +347,6 @@ In short, deep learning is to minimize `\(C(y_i,y^{'}_i)\)`
 &lt;/table&gt;
 ]
 
----
-
-## Tensors
-
-### What are tensors ?
-
-&lt;table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;"&gt;
-&lt;caption&gt;Examples of tensors&lt;/caption&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Dimension &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; R object &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Data &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Description &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 0D &lt;/td&gt;
-   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; 42 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;width: 20em; "&gt;  &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 1D &lt;/td&gt;
-   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; c(42, 42, 42) &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Vector data &lt;/td&gt;
-   &lt;td style="text-align:left;width: 20em; "&gt; 2D tensors of shape (samples, features) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 2D &lt;/td&gt;
-   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; matrix(42, nrow = 2, ncol = 2) &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Timeseries data &lt;/td&gt;
-   &lt;td style="text-align:left;width: 20em; "&gt; 3D tensors of shape (samples, timesteps, features) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 3D &lt;/td&gt;
-   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2)) &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Images &lt;/td&gt;
-   &lt;td style="text-align:left;width: 20em; "&gt; Images 	4D tensors of shape (samples, height, width, channels) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #2980b9 !important;"&gt; 4D &lt;/td&gt;
-   &lt;td style="text-align:left;width: 40em; font-weight: bold;color: black !important;"&gt; array(42, dim = c(2,3,2,3)) &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Videos &lt;/td&gt;
-   &lt;td style="text-align:left;width: 20em; "&gt; Video 	5D tensors of shape (samples, frames, height, width, channels) &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-__Tensors__ are a _generalization_ of vectors and matrices to an __arbitrary number of dimensions__ (or _axis_).
 ---
 
 ##Library for deep learning
