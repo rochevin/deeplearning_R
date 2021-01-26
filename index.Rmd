@@ -872,7 +872,7 @@ class: split-80
 
 .column[
 
-* ChIP-seq for the DNA secondary structures through the use of a G4-structure-specific single-chain antibody (BG4).
+* ChIP-seq on DNA secondary structures using a G4-structure-specific single-chain antibody (BG4).
 * Refinements in chromatin immunoprecipitation.
 * Followed by high-throughput sequencing.
 
