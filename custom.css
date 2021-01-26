@@ -47,3 +47,6 @@
   float: right;
   padding-left: 1%;
 }
+
+.split-80 .column:first-of-type {width: 30%}
+.split-80 .column:last-of-type {width: 70%}
