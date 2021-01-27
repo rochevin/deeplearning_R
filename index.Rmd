@@ -23,16 +23,16 @@ options(knitr.table.format = "html")
 ```
 
 class: inverse, center, middle
-background-image: url(imgs/cc.svg),url(imgs/cbi.png),url(imgs/logo_UT3_RVB.png),url(imgs/index.jpeg)
-background-position: 100% 0%,25% 100%,50% 100%,75% 100%
-background-size: 28%,15%,20%,10%
+background-image: url(imgs/Keras_Logo.jpg),url(imgs/cbi.png),url(imgs/logo_UT3_RVB.png),url(imgs/index.jpeg)
+background-position: 50% 0%,25% 100%,50% 100%,75% 100%
+background-size: 10%,15%,20%,10%
 
 ## .center[Deep Learning with .large[__R__] and __`keras`__]
 
 ### .center[R user group]
 <hr />
 
-.large[Vincent ROCHER | Chromatin and DNA Repair | 26/03/2020]
+.large[Vincent ROCHER | Centre de Biologie Intégrative - Toulouse | 28/01/2021]
 
 
 ---
@@ -150,6 +150,13 @@ _from Image Style Transfer Using Convolutional Neural Networks_
 
 ## What is __Deep Learning__ ?
 .pull-left[
+#### An artificial neuron
+![deeplearning](imgs/neural_example.jpeg)
+
+]
+
+
+.pull-right[
 
 #### A _deep_ neural network
 
@@ -157,17 +164,10 @@ _from Image Style Transfer Using Convolutional Neural Networks_
 
 ]
 
-.pull-right[
-#### An artificial neuron
-![deeplearning](imgs/neural_example.jpeg)
-
-]
-
 .large[
 - A layer apply a __geometric transformation__ on a tensor and output a __tensor__ using _weights_ (also __tensors__).
 - A _deep_ neural network consist of successive (linear) __stack of layers__, from an _input layer_ to a single _output layer_.
 ]
-
 
 ---
 
@@ -999,3 +999,22 @@ p.pcm <- lapply(res,function(x){ggseqlogo(as.matrix(x)) + ggplot2::theme_classic
 print(plot_grid(plotlist = p.pcm,ncol=4))
 ```
 ]
+
+---
+
+
+class: inverse, center, middle
+background-image: url(imgs/logo.svg),url(imgs/cbi.png),url(imgs/logo_UT3_RVB.png),url(imgs/index.jpeg)
+background-position: 50% 0%,25% 100%,50% 100%,75% 100%
+background-size: 45%,15%,20%,10%
+
+.center[
+# Thanks !
+]
+
+.center[ [@Github](https://github.com/morphos30/DeepG4) [@bioRxiv](https://www.biorxiv.org/content/10.1101/2020.07.22.215699v1) ]
+<hr />
+
+.large[Vincent ROCHER, Matthieu Genais, Elissar Nassereddine and Raphaël Mourad]
+
+.large[CBI-Toulouse | Chromatin and DNA Repair]
